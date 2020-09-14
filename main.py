@@ -15,16 +15,17 @@ def generar_poblacion(n):
         # Matriz de individuo donde la primera fila indica el orden de rectángulos y la segunda fila indica rotación
         # [0] = rectángulos
         # [1] = orientaciones
-        individuo = np.zeros((2,n))
+        individuo = np.zeros((2, n))
         individuo[0] = np.random.permutation(n)
         # El valor 0 indica que no está rotado mientras que el 1 indica que si está rotado
-        individuo[1] = np.random.randint(0,2,n)
+        individuo[1] = np.random.randint(0, 2, n)
         poblacion[i] = individuo
     return poblacion
 
 
 # Función de fitness que devuelve la altura total de una distribución de rectángulos
 def f(individuo):
+    i = 0
     ancho_acum = 0
     altura_max = 0
     altura_total = 0
@@ -32,7 +33,7 @@ def f(individuo):
     for rectangulo in individuo[0]:
         rectangulo = int(rectangulo)
         # Chequeo la orientación del rectángulo
-        if individuo[1][rectangulo] == 0:
+        if individuo[1][i] == 0:
             ancho_actual = anchos[rectangulo]
             altura_actual = alturas[rectangulo]
         else:
@@ -47,6 +48,7 @@ def f(individuo):
             altura_total += altura_max
             ancho_acum = ancho_actual
             altura_max = altura_actual
+        i += 1
 
     altura_total += altura_max
     return altura_total
@@ -70,7 +72,7 @@ def seleccionar_padre(poblacion):
 
 # Operador de crossover PMX
 def pmx(padre1, padre2, n):
-    hijo = np.zeros(n)
+    hijo = np.zeros((2, n))
     punto1 = np.random.randint(1, n - 1)
     punto2 = np.random.randint(1, n - 1)
     while (punto1 == punto2):
@@ -81,16 +83,22 @@ def pmx(padre1, padre2, n):
         punto2 = punto1
         punto1 = aux
     # Reparto los segmentos
-    hijo[:punto1] = padre1[:punto1]
-    hijo[punto1:punto2] = padre2[punto1:punto2]
-    hijo[punto2:] = padre1[punto2:]
+    # Copio los rectángulos
+    hijo[0][:punto1] = padre1[0][:punto1]
+    hijo[0][punto1:punto2] = padre2[0][punto1:punto2]
+    hijo[0][punto2:] = padre1[0][punto2:]
+    # Copio las orientaciones
+    hijo[1][:punto1] = padre1[1][:punto1]
+    hijo[1][punto1:punto2] = padre2[1][punto1:punto2]
+    hijo[1][punto2:] = padre1[1][punto2:]
     # Busco aquellos valores que no fueron copiados
     for i in range(punto1, punto2):
-        if not (padre1[i] in padre2[punto1:punto2]):
-            index = indice(padre1, padre2[i])
+        if not (padre1[0][i] in padre2[0][punto1:punto2]):
+            index = indice(padre1[0], padre2[0][i])
             while punto1 <= index < punto2:
-                index = indice(padre1, hijo[index])
-            hijo[index] = padre1[i]
+                index = indice(padre1[0], hijo[0][index])
+            hijo[0][index] = padre1[0][i]
+            hijo[1][index] = padre1[1][i]
     return hijo
 
 
@@ -180,4 +188,4 @@ n = 20
 anchos = np.random.randint(10, 50, n)
 alturas = np.random.randint(10, 75, n)
 
-ga(n, 10000)
+ga(n, 5000)
