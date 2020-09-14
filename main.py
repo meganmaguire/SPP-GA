@@ -13,6 +13,8 @@ def generar_poblacion(n):
     poblacion = np.zeros((Np, 2, n))
     for i in range(Np):
         # Matriz de individuo donde la primera fila indica el orden de rectángulos y la segunda fila indica rotación
+        # [0] = rectángulos
+        # [1] = orientaciones
         individuo = np.zeros((2,n))
         individuo[0] = np.random.permutation(n)
         # El valor 0 indica que no está rotado mientras que el 1 indica que si está rotado
@@ -22,23 +24,31 @@ def generar_poblacion(n):
 
 
 # Función de fitness que devuelve la altura total de una distribución de rectángulos
-def f(e):
+def f(individuo):
     ancho_acum = 0
-    altura_actual = 0
+    altura_max = 0
     altura_total = 0
 
-    for i in e:
-        i = int(i)
-        if anchos[i] + ancho_acum <= W:
-            ancho_acum += anchos[i]
-            if alturas[i] > altura_actual:
-                altura_actual = alturas[i]
+    for rectangulo in individuo[0]:
+        rectangulo = int(rectangulo)
+        # Chequeo la orientación del rectángulo
+        if individuo[1][rectangulo] == 0:
+            ancho_actual = anchos[rectangulo]
+            altura_actual = alturas[rectangulo]
         else:
-            altura_total += altura_actual
-            ancho_acum = anchos[i]
-            altura_actual = alturas[i]
+            ancho_actual = alturas[rectangulo]
+            altura_actual = anchos[rectangulo]
 
-    altura_total += altura_actual
+        if ancho_actual + ancho_acum <= W:
+            ancho_acum += ancho_actual
+            if altura_actual > altura_max:
+                altura_max = altura_actual
+        else:
+            altura_total += altura_max
+            ancho_acum = ancho_actual
+            altura_max = altura_actual
+
+    altura_total += altura_max
     return altura_total
 
 
@@ -90,9 +100,13 @@ def mutacion(individuo):
     index2 = np.random.randint(0, n)
     while index1 == index2:
         index2 = np.random.randint(0, n)
-    aux = individuo[index1]
-    individuo[index1] = individuo[index2]
-    individuo[index2] = aux
+    # Intercambio el rectángulo y su orientación al mismo tiempo
+    aux0 = individuo[0][index1]
+    aux1 = individuo[1][index1]
+    individuo[0][index1] = individuo[0][index2]
+    individuo[1][index1] = individuo[1][index2]
+    individuo[0][index2] = aux0
+    individuo[1][index2] = aux1
 
     return individuo
 
