@@ -24,7 +24,7 @@ class StripPackagingRotations:
         self.W = max_width
 
         # Control for empty data
-        if alturas == None or anchos == None and n != 0:
+        if alturas is None or anchos is None and n != 0:
             self.anchos = np.random.randint(10, 50, n)
             self.alturas = np.random.randint(10, 75, n)
         else:
