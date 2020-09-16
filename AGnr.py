@@ -147,8 +147,9 @@ class StripPackagingNotRotations:
 
         # Plot Individual
         Plotter.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
-                                                                heights=self.alturas, widths=self.anchos)
-
+                                                                heights=self.alturas, widths=self.anchos,
+                                                                title="Strip Packaging Problem - No Rotations \n"
+                                                                      "Mejor solución - Inicio")
         print("La altura total es: ", end='')
         print(self._fitness(resultado))
         print("-----------------------------------------")
@@ -179,6 +180,8 @@ class StripPackagingNotRotations:
 
         # Plot Individual
         Plotter.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
-                                                                heights=self.alturas, widths=self.anchos)
+                                                                heights=self.alturas, widths=self.anchos,
+                                                                title = "Strip Packaging Problem - No Rotations \n"
+                                                                        "Mejor solución - Final")
         print("La altura total es: ", end='')
-        print(self._fitness((resultado)))
+        print(self._fitness(resultado))

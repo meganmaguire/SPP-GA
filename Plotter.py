@@ -9,11 +9,13 @@ class PlotterStrip:
     def __init__(self):
         np.random.seed(0)
         plt.axes()
+
         plt.xlabel('Ancho')
         plt.ylabel('Altura')
 
-    def plot_individual_with_rotation(self, individual, heights, widths, max_width):
+    def plot_individual_with_rotation(self, individual, heights, widths, max_width, title="Strip Packaging Problem -  With Rotations"):
         # Plot Variables
+        plt.title(title)
         ancho_anterior = 0
         # Index rectangle variables
         i = 0
@@ -61,8 +63,10 @@ class PlotterStrip:
         altura_total += altura_max
         return altura_total
 
-    def plot_individual_with_no_rotation(self, individual, heights, widths, max_width):
+    def plot_individual_with_no_rotation(self, individual, heights, widths, max_width,
+                                         title="Strip Packaging Problem - No rotations"):
         # Plot variables
+        plt.title(title)
         ancho_anterior = 0
         ancho_actual = 0
         altura_actual = 0
