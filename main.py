@@ -1,6 +1,6 @@
 import os
-import numpy as np
 import AGr
+import AGnr
 
 
 def get_int_input(text, min_value, max_value):
@@ -82,10 +82,12 @@ def main():
     instance_selected = menu_select_files()
     max_width, widths, heights, individuo_size = load_data_from_file(instance_selected)
 
-    if(algorithm_selected == 1):
+    if algorithm_selected == 1:
+        print("Running with rotations...")
         AGr.StripPackagingRotations(n=individuo_size, anchos=widths, alturas=heights, gens=5000, max_width=max_width)
     else:
-        AGr.StripPackagingRotations()
+        print("Running with no rotations...")
+        AGnr.StripPackagingNotRotations(n=individuo_size, anchos=widths, alturas=heights, gens=5000, max_width=max_width)
     return
 
 
