@@ -1,4 +1,5 @@
 import numpy as np
+import drawer
 
 
 class StripPackagingNotRotations:
@@ -143,6 +144,11 @@ class StripPackagingNotRotations:
         resultado = poblacion[0]
         print("Primer mejor resultado: ", end='')
         print(resultado)
+
+        # Plot Individual
+        drawer.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
+                                                               heights=self.alturas, widths=self.anchos)
+
         print("La altura total es: ", end='')
         print(self._fitness(resultado))
         print("-----------------------------------------")
@@ -170,5 +176,9 @@ class StripPackagingNotRotations:
 
         print("El orden de rectángulos es: ", end='')
         print(resultado)
+
+        # Plot Individual
+        drawer.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
+                                                               heights=self.alturas, widths=self.anchos)
         print("La altura total es: ", end='')
         print(self._fitness((resultado)))
