@@ -41,7 +41,7 @@ def menu_select_files():
         print(built_options)
         return prefix_dir + files_in_data[
             get_int_input("Ingrese instancia de problema: ", 1, len(files_in_data)) - 1
-        ]
+            ]
 
 
 def main_menu():
@@ -81,13 +81,14 @@ def main():
     algorithm_selected = main_menu()
     instance_selected = menu_select_files()
     max_width, widths, heights, individuo_size = load_data_from_file(instance_selected)
-
+    # 1 - With Rotations -- 2 - No Rotations
     if algorithm_selected == 1:
         print("Running with rotations...")
         AGr.StripPackagingRotations(n=individuo_size, anchos=widths, alturas=heights, gens=5000, max_width=max_width)
     else:
         print("Running with no rotations...")
-        AGnr.StripPackagingNotRotations(n=individuo_size, anchos=widths, alturas=heights, gens=5000, max_width=max_width)
+        AGnr.StripPackagingNotRotations(n=individuo_size, anchos=widths, alturas=heights, gens=5000,
+                                        max_width=max_width)
     return
 
 
