@@ -169,7 +169,7 @@ class StripPackagingRotations:
         print("Altura de los rectángulos: ", end='')
         print(self.alturas)
         print("-----------------------------------------")
-        resultado = poblacion[0]
+        resultado = self._mejor_individuo(poblacion)
         print("Primer mejor resultado: ", end='')
         print(resultado)
 
