@@ -8,12 +8,12 @@ class PlotterStrip:
 
     def __init__(self):
         np.random.seed(0)
+        plt.axes()
         plt.xlabel('Ancho')
         plt.ylabel('Altura')
 
     def plot_individual_with_rotation(self, individual, heights, widths, max_width):
         # Plot Variables
-        plt.axes()
         ancho_anterior = 0
         # Index rectangle variables
         i = 0
@@ -53,7 +53,7 @@ class PlotterStrip:
             plt.axis('scaled')
             fillColor = self._random_color()
             rectangle_to_draw = plt.Rectangle((ancho_anterior, altura_total), ancho_actual, altura_actual,
-                                              fc=fillColor, ec=fillColor)
+                                              fc=fillColor, ec='k')
             plt.gca().add_patch(rectangle_to_draw)
 
         plt.show()
@@ -63,8 +63,6 @@ class PlotterStrip:
 
     def plot_individual_with_no_rotation(self, individual, heights, widths, max_width):
         # Plot variables
-        plt.axes()
-
         ancho_anterior = 0
         ancho_actual = 0
         altura_actual = 0
