@@ -214,3 +214,6 @@ class StripPackagingRotations:
 
         print("La altura total es: ", end='')
         print(self._fitness(resultado))
+
+        # Return best individual and best value
+        return resultado, self._fitness(resultado)
