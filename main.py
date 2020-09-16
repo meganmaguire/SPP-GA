@@ -1,6 +1,7 @@
 import os
-import AGnr
+import numpy as np
 import AGr
+
 
 def get_int_input(text, min_value, max_value):
     value = 0
@@ -28,6 +29,7 @@ def get_files_in_data():
 
 
 def menu_select_files():
+    prefix_dir = "data/"
     files_in_data = get_files_in_data()
     built_options = ""
     # Build options with files_in_data
@@ -37,7 +39,7 @@ def menu_select_files():
     while (True):
         print("Elegir instancia del problema:\n")
         print(built_options)
-        return files_in_data[
+        return prefix_dir + files_in_data[
             get_int_input("Ingrese instancia de problema: ", 1, len(files_in_data)) - 1
         ]
 
@@ -54,10 +56,36 @@ def main_menu():
         return get_int_input("Option Selected: ", 1, 2)
 
 
+def load_data_from_file(filename):
+    file_opened = open(filename, "r")
+    data = file_opened.read().split("\n")
+    max_width = int(data.pop(0))
+    widths = []
+    heights = []
+    for index in range(len(data)):
+        current_rectangle = data[index].split(" ")
+        widths.append(int(current_rectangle[0]))
+        heights.append(int(current_rectangle[1]))
+
+    # Control for data
+    if len(widths) != len(heights):
+        print("WIDTHS AND HEIGHTS != SIZES")
+        return 0, [], [], 0
+
+    n = len(widths)
+    return max_width, widths, heights, n
+
+
 # Driver Function
 def main():
-    main_menu()
-    menu_select_files()
+    algorithm_selected = main_menu()
+    instance_selected = menu_select_files()
+    max_width, widths, heights, individuo_size = load_data_from_file(instance_selected)
+
+    if(algorithm_selected == 1):
+        AGr.StripPackagingRotations(n=individuo_size, anchos=widths, alturas=heights, gens=5000, max_width=max_width)
+    else:
+        AGr.StripPackagingRotations()
     return
 
 
