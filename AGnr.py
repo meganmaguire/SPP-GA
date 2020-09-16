@@ -1,5 +1,5 @@
 import numpy as np
-import drawer
+import Plotter
 
 
 class StripPackagingNotRotations:
@@ -146,8 +146,8 @@ class StripPackagingNotRotations:
         print(resultado)
 
         # Plot Individual
-        drawer.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
-                                                               heights=self.alturas, widths=self.anchos)
+        Plotter.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
+                                                                heights=self.alturas, widths=self.anchos)
 
         print("La altura total es: ", end='')
         print(self._fitness(resultado))
@@ -178,7 +178,7 @@ class StripPackagingNotRotations:
         print(resultado)
 
         # Plot Individual
-        drawer.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
-                                                               heights=self.alturas, widths=self.anchos)
+        Plotter.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
+                                                                heights=self.alturas, widths=self.anchos)
         print("La altura total es: ", end='')
         print(self._fitness((resultado)))

@@ -4,8 +4,7 @@ import numpy as np
 
 
 class PlotterStrip:
-    # _color_list = list(mcolors.CSS4_COLORS.values())
-    _color_list = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+    _color_list = list(mcolors.CSS4_COLORS.values())
 
     def __init__(self):
         np.random.seed(0)
