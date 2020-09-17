@@ -5,22 +5,24 @@ import Plotter
 class StripPackagingNotRotations:
     W = 100
     Pc = 0.65
-    Pm = 0.1
+    Pm = 0.05
     Np = 50
     n = 20
     anchos = []
     alturas = []
+    show_figure = False
 
     # Constructor
-    def __init__(self, n=10, gens=5000, anchos=None, alturas=None, max_width=100):
-        np.random.seed(0)
+    def __init__(self, n=10, gens=5000, anchos=None, alturas=None, max_width=100, seed=0, show_figure=True):
+        np.random.seed(seed)
         self.W = 100
         self.Pc = 0.65
-        self.Pm = 0.1
+        self.Pm = 0.05
         self.Np = 50
         self.n = n
         self.gens = gens
         self.W = max_width
+        self.show_figure = show_figure
 
         # Control for empty data
         if alturas is None or anchos is None and n != 0:
@@ -29,8 +31,6 @@ class StripPackagingNotRotations:
         else:
             self.anchos = anchos
             self.alturas = alturas
-
-        self._run(self.n, self.gens)
 
     # Genero la población como permutaciones de n elementos
     def _generar_poblacion(self, n):
@@ -132,7 +132,10 @@ class StripPackagingNotRotations:
                 return i
 
     # Algoritmo principal
-    def _run(self, n, gen):
+    def run(self):
+        n = self.n
+        gen = self.gens
+
         poblacion = self._generar_poblacion(n)
         nueva_poblacion = np.zeros((self.Np, n))
 
@@ -146,7 +149,8 @@ class StripPackagingNotRotations:
         print(resultado)
 
         # Plot Individual
-        Plotter.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
+        if self.show_figure:
+            Plotter.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
                                                                 heights=self.alturas, widths=self.anchos,
                                                                 title="Strip Packaging Problem - No Rotations \n"
                                                                       "Mejor solución - Inicio")
@@ -179,10 +183,11 @@ class StripPackagingNotRotations:
         print(resultado)
 
         # Plot Individual
-        Plotter.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
-                                                                heights=self.alturas, widths=self.anchos,
-                                                                title = "Strip Packaging Problem - No Rotations \n"
-                                                                        "Mejor solución - Final")
+        if self.show_figure:
+            Plotter.PlotterStrip().plot_individual_with_no_rotation(individual=resultado, max_width=self.W,
+                                                                    heights=self.alturas, widths=self.anchos,
+                                                                    title = "Strip Packaging Problem - No Rotations \n"
+                                                                            "Mejor solución - Final")
         print("La altura total es: ", end='')
         print(self._fitness(resultado))
 
