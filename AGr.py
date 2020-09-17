@@ -166,15 +166,16 @@ class StripPackagingRotations:
 
         poblacion = self._generar_poblacion(n)
         nueva_poblacion = np.zeros((self.Np, 2, n))
-
-        print("Ancho de los rectángulos: ", end='')
-        print(self.anchos)
-        print("Altura de los rectángulos: ", end='')
-        print(self.alturas)
-        print("-----------------------------------------")
         resultado = self._mejor_individuo(poblacion)
-        print("Primer mejor resultado: ", end='')
-        print(resultado)
+
+        if self.show_figure:
+            print("Ancho de los rectángulos: ", end='')
+            print(self.anchos)
+            print("Altura de los rectángulos: ", end='')
+            print(self.alturas)
+            print("-----------------------------------------")
+            print("Primer mejor resultado: ", end='')
+            print(resultado)
 
         # Plot Individual
         if self.show_figure:
@@ -182,9 +183,10 @@ class StripPackagingRotations:
                                                                  heights=self.alturas, widths=self.anchos,
                                                                  title="Strip Packaging Problem - With Rotations \n"
                                                                        "Mejor solución - Inicio")
-        print("La altura total es: ", end='')
-        print(self._fitness(resultado))
-        print("-----------------------------------------")
+        if self.show_figure:
+            print("La altura total es: ", end='')
+            print(self._fitness(resultado))
+            print("-----------------------------------------")
 
         for i in range(gen):
             for j in range(self.Np):
@@ -207,8 +209,9 @@ class StripPackagingRotations:
             if self._fitness(mejor_actual) < self._fitness(resultado):
                 resultado = np.copy(mejor_actual)
 
-        print("El orden de rectángulos es: ", end='')
-        print(resultado)
+        if self.show_figure:
+            print("El orden de rectángulos es: ", end='')
+            print(resultado)
 
         # Plot Individual
         if self.show_figure:
@@ -216,9 +219,9 @@ class StripPackagingRotations:
                                                                  heights=self.alturas, widths=self.anchos,
                                                                  title="Strip Packaging Problem - With Rotations \n"
                                                                        "Mejor solución - Final")
-
-        print("La altura total es: ", end='')
-        print(self._fitness(resultado))
+        if self.show_figure:
+            print("La altura total es: ", end='')
+            print(self._fitness(resultado))
 
         # Return best individual and best value
         return resultado, self._fitness(resultado)

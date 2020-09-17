@@ -2,7 +2,7 @@ import numpy as np
 import AGnr
 import AGr
 import main
-
+import Plotter
 
 class Statistics:
     instances_files = []
@@ -30,7 +30,7 @@ class Statistics:
         return
 
     def calculate_statistics(self, number_of_executions):
-
+        print("Running instances...")
         for instance in self.instances_files:
             # Get parameters for algorithms
             max_width, widths, heights, individuo_size = main.load_data_from_file(instance)
@@ -41,11 +41,13 @@ class Statistics:
             data_individual_rotation = []
             data_individual_no_rotation = []
 
+            # Seed Value
+            seed = 0
             for execution in range(number_of_executions):
                 best_individual, best_individual_fitness = AGr.StripPackagingRotations(n=individuo_size, anchos=widths,
                                                                                        alturas=heights, gens=1000,
                                                                                        max_width=max_width,
-                                                                                       seed=execution,
+                                                                                       seed=seed,
                                                                                        show_figure=False).run()
                 # Gather data from algorithm with rotations
                 data_fitness_rotation.append(best_individual_fitness)
@@ -56,21 +58,53 @@ class Statistics:
                                                                                            alturas=heights,
                                                                                            gens=1000,
                                                                                            max_width=max_width,
-                                                                                           seed=execution,
+                                                                                           seed=seed,
                                                                                            show_figure=False).run()
                 # Gather data from algorithm with rotations
                 data_fitness_no_rotation.append(best_individual_fitness)
                 data_individual_no_rotation.append(best_individual)
+
+                # Change seed
+                seed += 1
 
             # Collect all data
 
             # No Rotations
             self.best_values_fitness_no_rotations.append(data_fitness_no_rotation)
             self.best_values_individuos_no_rotations.append(data_individual_no_rotation)
+
             # With Rotation
             self.best_values_fitness_with_rotations.append(data_fitness_rotation)
             self.best_values_individuos_with_rotations.append(data_individual_rotation)
 
+            print(f" ************* Instance - {instance} ************* \n")
+            print("     *** Algorithm Results - No Rotations *** \n")
+            best_fitness = np.max(data_fitness_no_rotation)
+            best_individual = data_individual_no_rotation[
+                data_fitness_no_rotation.index(np.max(data_fitness_no_rotation))
+            ]
+            print(f"        - Best Fitness : {best_fitness}")
+            print(f"        - Best Individual: {best_individual}")
+            print(f"        - Median: {np.median(data_fitness_no_rotation)}")
+            print(f"        - Deviation: {np.std(data_fitness_no_rotation)}\n\n")
+            Plotter.PlotterStrip().plot_individual_with_no_rotation(individual=best_individual, max_width=max_width,
+                                                                    heights=heights, widths=widths,
+                                                                    title=f"{instance} - No Rotations Algorithm - Best")
+
+            print("     *** Algorithm Results - With Rotations *** \n")
+            best_fitness = np.max(data_fitness_rotation)
+            best_individual = data_individual_rotation[
+                data_fitness_rotation.index(np.max(data_fitness_rotation))
+            ]
+            print(f"        - Best Fitness : {best_fitness}")
+            print(f"        - Best Individual: {best_individual}")
+            print(f"        - Median: {np.median(data_fitness_rotation)}")
+            print(f"        - Deviation: {np.std(data_fitness_rotation)}\n\n")
+            Plotter.PlotterStrip().plot_individual_with_rotation(individual=best_individual, max_width=max_width,
+                                                                    heights=heights, widths=widths,
+                                                                    title=f"{instance} - Rotations Algorithm - Best")
+            print("---------------------------------------------------------")
+            print("---------------------------------------------------------")
         return
 
 
