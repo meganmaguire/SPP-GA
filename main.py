@@ -84,11 +84,12 @@ def main():
     # 1 - With Rotations -- 2 - No Rotations
     if algorithm_selected == 1:
         print("Running with rotations...")
-        AGr.StripPackagingRotations(n=individuo_size, anchos=widths, alturas=heights, gens=1000, max_width=max_width)
+        AGr.StripPackagingRotations(
+            n=individuo_size, anchos=widths, alturas=heights, gens=1000, max_width=max_width).run()
     else:
         print("Running with no rotations...")
         AGnr.StripPackagingNotRotations(n=individuo_size, anchos=widths, alturas=heights, gens=1000,
-                                        max_width=max_width)
+                                        max_width=max_width).run()
     return
 
 
