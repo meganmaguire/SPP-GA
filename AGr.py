@@ -45,6 +45,7 @@ class StripPackagingRotations:
             individuo[0] = np.random.permutation(n)
             # El valor 0 indica que no está rotado mientras que el 1 indica que si está rotado
             individuo[1] = np.random.randint(0, 2, n)
+            individuo = self._control_rotacion(individuo)
             poblacion[i] = individuo
         return poblacion
 
@@ -158,6 +159,16 @@ class StripPackagingRotations:
         for i in range(len(individuo)):
             if individuo[i] == valor:
                 return i
+
+    # Controlar si roto al individuo, entra o no entra en el strip
+    def _control_rotacion(self, individuo):
+        for i in range(len(individuo[1])):
+            rotacion = individuo[1][i]
+            if rotacion == 1:
+                rectangulo = int(individuo[0][i])
+                if self.alturas[rectangulo] > self.W:
+                    individuo[1][i] = 0
+        return individuo
 
     # Algoritmo principal
     def run(self):

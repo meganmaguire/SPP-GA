@@ -51,7 +51,7 @@ class Statistics:
                                                                                        show_figure=False).run()
                 # Gather data from algorithm with rotations
                 data_fitness_rotation.append(best_individual_fitness)
-                data_individual_rotation.append(best_individual)
+                data_individual_rotation.append(best_individual.copy())
 
                 best_individual, best_individual_fitness = AGnr.StripPackagingNotRotations(n=individuo_size,
                                                                                            anchos=widths,
@@ -62,7 +62,7 @@ class Statistics:
                                                                                            show_figure=False).run()
                 # Gather data from algorithm with rotations
                 data_fitness_no_rotation.append(best_individual_fitness)
-                data_individual_no_rotation.append(best_individual)
+                data_individual_no_rotation.append(best_individual.copy())
 
                 # Change seed
                 seed += 1
@@ -70,18 +70,18 @@ class Statistics:
             # Collect all data
 
             # No Rotations
-            self.best_values_fitness_no_rotations.append(data_fitness_no_rotation)
-            self.best_values_individuos_no_rotations.append(data_individual_no_rotation)
+            self.best_values_fitness_no_rotations.append(data_fitness_no_rotation.copy())
+            self.best_values_individuos_no_rotations.append(data_individual_no_rotation.copy())
 
             # With Rotation
-            self.best_values_fitness_with_rotations.append(data_fitness_rotation)
-            self.best_values_individuos_with_rotations.append(data_individual_rotation)
+            self.best_values_fitness_with_rotations.append(data_fitness_rotation.copy())
+            self.best_values_individuos_with_rotations.append(data_individual_rotation.copy())
 
             print(f" ************* Instance - {instance} ************* \n")
             print("     *** Algorithm Results - No Rotations *** \n")
-            best_fitness = np.max(data_fitness_no_rotation)
+            best_fitness = np.min(data_fitness_no_rotation)
             best_individual = data_individual_no_rotation[
-                data_fitness_no_rotation.index(np.max(data_fitness_no_rotation))
+                data_fitness_no_rotation.index(np.min(data_fitness_no_rotation))
             ]
             print(f"        - Best Fitness : {best_fitness}")
             print(f"        - Best Individual: {best_individual}")
@@ -92,17 +92,17 @@ class Statistics:
                                                                     title=f"{instance} - No Rotations Algorithm - Best")
 
             print("     *** Algorithm Results - With Rotations *** \n")
-            best_fitness = np.max(data_fitness_rotation)
+            best_fitness = np.min(data_fitness_rotation)
             best_individual = data_individual_rotation[
-                data_fitness_rotation.index(np.max(data_fitness_rotation))
+                data_fitness_rotation.index(np.min(data_fitness_rotation))
             ]
             print(f"        - Best Fitness : {best_fitness}")
             print(f"        - Best Individual: {best_individual}")
             print(f"        - Median: {np.median(data_fitness_rotation)}")
             print(f"        - Deviation: {np.std(data_fitness_rotation)}\n\n")
             Plotter.PlotterStrip().plot_individual_with_rotation(individual=best_individual, max_width=max_width,
-                                                                    heights=heights, widths=widths,
-                                                                    title=f"{instance} - Rotations Algorithm - Best")
+                                                                 heights=heights, widths=widths,
+                                                                 title=f"{instance} - Rotations Algorithm - Best")
             print("---------------------------------------------------------")
             print("---------------------------------------------------------")
         return
