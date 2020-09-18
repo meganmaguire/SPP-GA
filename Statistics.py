@@ -3,6 +3,8 @@ import AGnr
 import AGr
 import main
 import Plotter
+import time
+
 
 class Statistics:
     instances_files = []
@@ -31,6 +33,7 @@ class Statistics:
 
     def calculate_statistics(self, number_of_executions):
         print("Running instances...")
+
         for instance in self.instances_files:
             # Get parameters for algorithms
             max_width, widths, heights, individuo_size = main.load_data_from_file(instance)
@@ -108,4 +111,7 @@ class Statistics:
         return
 
 
+# Time it
+start_time = time.time()
 Statistics().calculate_statistics(20)
+print("--- %s seconds ---" % (time.time() - start_time))
